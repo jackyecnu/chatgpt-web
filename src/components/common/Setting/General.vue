@@ -20,7 +20,7 @@ const theme = computed(() => appStore.theme)
 
 const userInfo = computed(() => userStore.userInfo)
 
-const avatar = ref(userInfo.value.avatar ?? '')
+// const avatar = ref(userInfo.value.avatar ?? '')
 
 const name = ref(userInfo.value.name ?? '')
 
