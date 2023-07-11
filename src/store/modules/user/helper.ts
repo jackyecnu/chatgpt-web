@@ -15,8 +15,8 @@ export interface UserState {
 export function defaultSetting(): UserState {
   return {
     userInfo: {
-      avatar: 'https://app.lingman.tech/favicon.ico',
-      name: 'Lingman',
+      avatar: process.env.SITE_AVATAR || 'https://app.lingman.tech/favicon.ico',
+      name: process.env.SITE_NAME ||  'Lingman',
       description: '',
     },
   }
