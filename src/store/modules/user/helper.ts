@@ -15,8 +15,8 @@ export interface UserState {
 export function defaultSetting(): UserState {
   return {
     userInfo: {
-      avatar: process.env.SITE_AVATAR || 'https://g.lingman.tech/app/lmapp/dev/uploadfiles/20230710/nSyz3hCGbpJ6shG6MxeY3J2DnAYJt62m.jpeg',
-      name: process.env.SITE_NAME ||  '字格',
+      avatar: process.env.SITE_AVATAR || 'https://g.lingman.tech/app/lmapp/dev/uploadfiles/20230711/xbWZztrKESFs3njFn2dCJktT67MzfBHN.png',
+      name: process.env.SITE_NAME ||  'Chatgpt',
       description: '',
     },
   }
