@@ -13,10 +13,13 @@ export interface UserState {
 }
 
 export function defaultSetting(): UserState {
+  const avatar = 'https://g.lingman.tech/app/lmapp/dev/uploadfiles/20230711/xbWZztrKESFs3njFn2dCJktT67MzfBHN.png'
+  const name = 'Chatgpt'
+
   return {
     userInfo: {
-      avatar: process.env.SITE_AVATAR || 'https://g.lingman.tech/app/lmapp/dev/uploadfiles/20230711/xbWZztrKESFs3njFn2dCJktT67MzfBHN.png',
-      name: process.env.SITE_NAME ||  'Chatgpt',
+      avatar: import.meta.env.MODE === 'production' ? (process.env.SITE_AVATAR || avatar) : avatar,
+      name: import.meta.env.MODE === 'production' ? (process.env.SITE_NAME || name) : name,
       description: '',
     },
   }

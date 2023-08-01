@@ -41,6 +41,11 @@ const messageRef = ref<HTMLElement>()
 const options = computed(() => {
   const common = [
     {
+      label: '播放',
+      key: 'play',
+      icon: iconRender({ icon: 'carbon:play-outline' }),
+    },
+    {
       label: t('chat.copy'),
       key: 'copyText',
       icon: iconRender({ icon: 'ri:file-copy-2-line' }),
@@ -63,7 +68,7 @@ const options = computed(() => {
   return common
 })
 
-function handleSelect(key: 'copyText' | 'delete' | 'toggleRenderType') {
+function handleSelect(key: 'copyText' | 'delete' | 'toggleRenderType' | 'play') {
   switch (key) {
     case 'copyText':
       handleCopy()
@@ -73,6 +78,9 @@ function handleSelect(key: 'copyText' | 'delete' | 'toggleRenderType') {
       return
     case 'delete':
       emit('delete')
+      return
+    case 'play':
+      handlePlay()
   }
 }
 
@@ -90,14 +98,32 @@ async function handleCopy() {
     message.error('复制失败')
   }
 }
+
+async function handlePlay() {
+  const mp3 = document.getElementById('audio') as HTMLVideoElement
+  let zhText = props.text || ''
+  zhText = encodeURI(zhText)
+  const mp3Src = `https://fanyi.baidu.com/gettts?lan=zh&text=${zhText}&spd=5&source=web`
+  mp3.setAttribute('src', mp3Src)
+  setTimeout(() => {
+    mp3.play()
+  }, 20)
+  // const audio = new Audio(`https://fanyi.baidu.com/gettts?lan=zh&text=${encodeURI(props.text!)}&spd=5&source=web`)
+  // const playPromise = audio.play()
+  // if (playPromise !== undefined) {
+  //   playPromise.then(() => {
+  //   // Automatic playback started!
+  //   }).catch((error) => {
+  //     console.log(error)
+  //   // Automatic playback failed.
+  //   // Show a UI element to let the user manually start playback.
+  //   })
+  // }
+}
 </script>
 
 <template>
-  <div
-    ref="messageRef"
-    class="flex w-full mb-6 overflow-hidden"
-    :class="[{ 'flex-row-reverse': inversion }]"
-  >
+  <div ref="messageRef" class="flex w-full mb-6 overflow-hidden" :class="[{ 'flex-row-reverse': inversion }]">
     <div
       class="flex items-center justify-center flex-shrink-0 h-8 overflow-hidden rounded-full basis-8"
       :class="[inversion ? 'ml-2' : 'mr-2']"
@@ -108,16 +134,9 @@ async function handleCopy() {
       <p class="text-xs text-[#b4bbc4]" :class="[inversion ? 'text-right' : 'text-left']">
         {{ dateTime }}
       </p>
-      <div
-        class="flex items-end gap-1 mt-2"
-        :class="[inversion ? 'flex-row-reverse' : 'flex-row']"
-      >
+      <div class="flex items-end gap-1 mt-2" :class="[inversion ? 'flex-row-reverse' : 'flex-row']">
         <TextComponent
-          ref="textRef"
-          :inversion="inversion"
-          :error="error"
-          :text="text"
-          :loading="loading"
+          ref="textRef" :inversion="inversion" :error="error" :text="text" :loading="loading"
           :as-raw-text="asRawText"
         />
         <div class="flex flex-col">
@@ -129,9 +148,7 @@ async function handleCopy() {
             <SvgIcon icon="ri:restart-line" />
           </button>
           <NDropdown
-            :trigger="isMobile ? 'click' : 'hover'"
-            :placement="!inversion ? 'right' : 'left'"
-            :options="options"
+            :trigger="isMobile ? 'click' : 'hover'" :placement="!inversion ? 'right' : 'left'" :options="options"
             @select="handleSelect"
           >
             <button class="transition text-neutral-300 hover:text-neutral-800 dark:hover:text-neutral-200">

@@ -3,6 +3,7 @@ import type { PluginOption } from 'vite'
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
+import Inspector from '@djie/vite-plugin-vue-inspector'
 
 function setupPlugins(env: ImportMetaEnv): PluginOption[] {
   return [
@@ -18,6 +19,7 @@ function setupPlugins(env: ImportMetaEnv): PluginOption[] {
         ],
       },
     }),
+    Inspector(),
   ]
 }
 
@@ -32,7 +34,7 @@ export default defineConfig((env) => {
     },
     plugins: setupPlugins(viteEnv),
     server: {
-      host: '0.0.0.0',
+      host: true,
       port: 1002,
       open: false,
       proxy: {

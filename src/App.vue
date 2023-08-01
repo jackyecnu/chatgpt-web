@@ -19,4 +19,5 @@ const { language } = useLanguage()
       <RouterView />
     </NaiveProvider>
   </NConfigProvider>
+  <audio id="audio" src="https://s.lingman.tech/static/signalr/lingMan_sound_4.wav" />
 </template>
