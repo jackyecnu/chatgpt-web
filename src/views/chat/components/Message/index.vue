@@ -103,7 +103,8 @@ async function handlePlay() {
   const mp3 = document.getElementById('audio') as HTMLVideoElement
   let zhText = props.text || ''
   zhText = encodeURI(zhText)
-  const mp3Src = `https://fanyi.baidu.com/gettts?lan=zh&text=${zhText}&spd=5&source=web`
+  // const mp3Src = `https://fanyi.baidu.com/gettts?lan=zh&text=${zhText}&spd=5&source=web`
+  const mp3Src = `https://api-lmapp.lingman.tech/api/Public/download/${zhText}`
   mp3.setAttribute('src', mp3Src)
   setTimeout(() => {
     mp3.play()
