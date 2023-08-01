@@ -104,7 +104,7 @@ async function handlePlay() {
   let zhText = props.text || ''
   zhText = encodeURI(zhText)
   // const mp3Src = `https://fanyi.baidu.com/gettts?lan=zh&text=${zhText}&spd=5&source=web`
-  const mp3Src = `https://api-lmapp.lingman.tech/api/Public/download/${zhText}`
+  const mp3Src = `https://api-lmapp.lingman.tech/api/Public/download/${encodeURIComponent(`https://fanyi.baidu.com/gettts?lan=zh&text=${zhText}&spd=5&source=web`)}`
   mp3.setAttribute('src', mp3Src)
   setTimeout(() => {
     mp3.play()
