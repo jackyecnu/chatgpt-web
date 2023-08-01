@@ -18,8 +18,8 @@ export function defaultSetting(): UserState {
 
   return {
     userInfo: {
-      avatar: import.meta.env.MODE === 'production' ? (process.env.SITE_AVATAR || avatar) : avatar,
-      name: import.meta.env.MODE === 'production' ? (process.env.SITE_NAME || name) : name,
+      avatar: import.meta.env.SITE_AVATAR || avatar,
+      name: import.meta.env.SITE_NAME || name,
       description: '',
     },
   }
