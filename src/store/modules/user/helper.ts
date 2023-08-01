@@ -18,8 +18,8 @@ export function defaultSetting(): UserState {
 
   return {
     userInfo: {
-      avatar: import.meta.env.SITE_AVATAR || avatar,
-      name: import.meta.env.SITE_NAME || name,
+      avatar: window.SITE_AVATAR || avatar,
+      name: window.SITE_NAME || name,
       description: '',
     },
   }
