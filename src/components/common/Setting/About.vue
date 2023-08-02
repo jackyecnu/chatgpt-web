@@ -1,9 +1,9 @@
 <script setup lang='ts'>
-import {    onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { NSpin } from 'naive-ui'
 import { fetchChatConfig } from '@/api'
-//import pkg from '@/../package.json'
-//import { useAuthStore } from '@/store'
+// import pkg from '@/../package.json'
+// import { useAuthStore } from '@/store'
 
 interface ConfigState {
   timeoutMs?: number
@@ -14,13 +14,13 @@ interface ConfigState {
   usage?: string
 }
 
-//const authStore = useAuthStore()
+// const authStore = useAuthStore()
 
 const loading = ref(false)
 
 const config = ref<ConfigState>()
 
-//const isChatGPTAPI = computed<boolean>(() => !!authStore.isChatGPTAPI)
+// const isChatGPTAPI = computed<boolean>(() => !!authStore.isChatGPTAPI)
 
 async function fetchConfig() {
   try {
@@ -41,7 +41,8 @@ onMounted(() => {
 <template>
   <NSpin :show="loading">
     <div class="p-4 space-y-4">
-     
+      <br>
+      <audio controls src="https://api-lmapp.lingman.tech/api/Public/download/https%3A%2F%2Ffanyi.baidu.com%2Fgettts%3Flan%3Dzh%26text%3D%25E6%25AC%25A2%25E8%25BF%258E%25E4%25BD%25BF%25E7%2594%25A8chat%2520gpt%26spd%3D5%26source%3Dweb" />
     </div>
   </NSpin>
 </template>
