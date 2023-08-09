@@ -100,26 +100,12 @@ async function handleCopy() {
 }
 
 async function handlePlay() {
-  const mp3 = document.getElementById('audio') as HTMLVideoElement
   let zhText = props.text || ''
   zhText = encodeURI(zhText)
   // const mp3Src = `https://fanyi.baidu.com/gettts?lan=zh&text=${zhText}&spd=5&source=web`
   const mp3Src = `https://api-lmapp.lingman.tech/api/Public/download/${encodeURIComponent(`https://fanyi.baidu.com/gettts?lan=zh&text=${zhText}&spd=5&source=web`)}`
-  mp3.setAttribute('src', mp3Src)
-  setTimeout(() => {
-    mp3.play()
-  }, 20)
-  // const audio = new Audio(`https://fanyi.baidu.com/gettts?lan=zh&text=${encodeURI(props.text!)}&spd=5&source=web`)
-  // const playPromise = audio.play()
-  // if (playPromise !== undefined) {
-  //   playPromise.then(() => {
-  //   // Automatic playback started!
-  //   }).catch((error) => {
-  //     console.log(error)
-  //   // Automatic playback failed.
-  //   // Show a UI element to let the user manually start playback.
-  //   })
-  // }
+
+  new Audio(mp3Src).play()
 }
 </script>
 
