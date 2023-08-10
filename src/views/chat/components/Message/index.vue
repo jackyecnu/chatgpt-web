@@ -100,12 +100,24 @@ async function handleCopy() {
 }
 
 async function handlePlay() {
-  let zhText = props.text || ''
-  zhText = encodeURI(zhText)
-  // const mp3Src = `https://fanyi.baidu.com/gettts?lan=zh&text=${zhText}&spd=5&source=web`
-  const mp3Src = `https://api-lmapp.lingman.tech/api/Public/download/${encodeURIComponent(`https://fanyi.baidu.com/gettts?lan=zh&text=${zhText}&spd=5&source=web`)}`
+  const zhText = props.text || ''
 
-  new Audio(mp3Src).play()
+  let audioList = [] as HTMLAudioElement[]
+  const zhTextArr = zhText.match(/[\s\S]{1,100}/g)
+  if (zhTextArr)
+    audioList = zhTextArr.map(text => new Audio(`https://api-lmapp.lingman.tech/api/Public/download/${encodeURIComponent(`https://fanyi.baidu.com/gettts?lan=zh&text=${(text)}&spd=5&source=web`)}`))
+
+  for (const item of audioList)
+    await Play(item)
+}
+
+async function Play(audio: HTMLAudioElement) {
+  return new Promise((resolve) => {
+    audio.play()
+    audio.addEventListener('ended', () => {
+      resolve('播放结束')
+    })
+  })
 }
 </script>
 
