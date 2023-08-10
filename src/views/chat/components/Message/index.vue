@@ -46,6 +46,11 @@ const options = computed(() => {
       icon: iconRender({ icon: 'carbon:play-outline' }),
     },
     {
+      label: '分段播放',
+      key: 'segmentPlay',
+      icon: iconRender({ icon: 'carbon:play-outline' }),
+    },
+    {
       label: t('chat.copy'),
       key: 'copyText',
       icon: iconRender({ icon: 'ri:file-copy-2-line' }),
@@ -68,7 +73,7 @@ const options = computed(() => {
   return common
 })
 
-function handleSelect(key: 'copyText' | 'delete' | 'toggleRenderType' | 'play') {
+function handleSelect(key: 'copyText' | 'delete' | 'toggleRenderType' | 'play' | 'segmentPlay') {
   switch (key) {
     case 'copyText':
       handleCopy()
@@ -81,6 +86,9 @@ function handleSelect(key: 'copyText' | 'delete' | 'toggleRenderType' | 'play') 
       return
     case 'play':
       handlePlay()
+      return
+    case 'segmentPlay':
+      handleSegmentPlay()
   }
 }
 
@@ -99,16 +107,40 @@ async function handleCopy() {
   }
 }
 
-async function handlePlay() {
+async function handleSegmentPlay() {
   const zhText = props.text || ''
 
-  let audioList = [] as HTMLAudioElement[]
+  const audioList = [] as HTMLAudioElement[]
   const zhTextArr = zhText.match(/[\s\S]{1,100}/g)
-  if (zhTextArr)
-    audioList = zhTextArr.map(text => new Audio(`https://api-lmapp.lingman.tech/api/Public/download/${encodeURIComponent(`https://fanyi.baidu.com/gettts?lan=zh&text=${(text)}&spd=5&source=web`)}`))
+
+  if (zhTextArr) {
+    for (const text of zhTextArr) {
+      const audio = await loadAudioByText(text)
+      audioList.push(audio as HTMLAudioElement)
+    }
+  }
 
   for (const item of audioList)
     await Play(item)
+}
+
+async function handlePlay() {
+  let zhText = props.text || ''
+  zhText = encodeURI(zhText)
+
+  const mp3Src = `https://api-lmapp.lingman.tech/api/Public/download/${encodeURIComponent(`https://fanyi.baidu.com/gettts?lan=zh&text=${zhText}&spd=5&source=web`)}`
+
+  new Audio(mp3Src).play()
+}
+
+async function loadAudioByText(text: string) {
+  return new Promise((resolve) => {
+    const audio = new Audio(`https://api-lmapp.lingman.tech/api/Public/download/${encodeURIComponent(`https://fanyi.baidu.com/gettts?lan=zh&text=${encodeURI(text)}&spd=5&source=web`)}`)
+    audio.addEventListener('canplaythrough', async () => {
+      // await new Promise(resolve => setTimeout(resolve, 5000))
+      resolve(audio)
+    })
+  })
 }
 
 async function Play(audio: HTMLAudioElement) {
